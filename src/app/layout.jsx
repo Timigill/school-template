@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata = {
   title: 'Chenab Group of Colleges',
   description: 'Excellence in Education',
+  icons: {
+    icon: '/favico.ico', // or '/favicon.png'
+  },
 };
 
 export default function RootLayout({ children }) {
