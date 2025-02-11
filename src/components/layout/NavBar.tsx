@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeDropdown, setActiveDropdown] = useState(null);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [isContactActive, setIsContactActive] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const menuItems = [
     {
@@ -20,20 +22,20 @@ export default function NavBar() {
       title: 'Academics',
       path: '/academics',
       dropdown: [
-        { title: 'Programs', path: '/academics#programs' },
-        { title: 'Faculty', path: '/academics#faculty' },
-        { title: 'Research', path: '/academics#research' },
-        { title: 'Library', path: '/academics#library' },
+        { title: 'Programs', path: '/academics/programs' },
+        { title: 'Faculty', path: '/academics/faculty' },
+        { title: 'Research', path: '/academics/research' },
+        { title: 'Library', path: '/academics/library' },
       ]
     },
     {
       title: 'Admissions',
       path: '/admissions',
       dropdown: [
-        { title: 'Apply Now', path: '/admissions#apply' },
-        { title: 'Requirements', path: '/admissions#requirements' },
-        { title: 'Scholarships', path: '/admissions#scholarships' },
-        { title: 'FAQs', path: '/admissions#faqs' },
+        { title: 'Apply Now', path: '/admissions/apply' },
+        { title: 'Requirements', path: '/admissions/requirements' },
+        { title: 'Scholarships', path: '/admissions/scholarships' },
+        { title: 'FAQs', path: '/admissions/faqs' },
       ]
     },
     {
@@ -69,7 +71,13 @@ export default function NavBar() {
     setIsMenuOpen(false);
   };
 
-  const isLinkActive = (path) => {
+  const handleDropdownClick = (path: string) => {
+    router.push(path);
+    setActiveDropdown(null);
+    setIsMenuOpen(false);
+  };
+
+  const isLinkActive = (path: string) => {
     return pathname === path;
   };
 
@@ -111,13 +119,13 @@ export default function NavBar() {
                     className="absolute top-full left-0 w-48 bg-[#023D1F] border border-[#FFC107]/20 rounded-lg shadow-xl py-2 mt-2"
                   >
                     {item.dropdown.map((dropItem, dropIndex) => (
-                      <Link
+                      <button
                         key={dropIndex}
-                        href={dropItem.path}
-                        className="block px-4 py-2 text-white hover:bg-[#FFC107]/10 hover:text-[#FFC107] transition-colors duration-300"
+                        onClick={() => handleDropdownClick(dropItem.path)}
+                        className="block w-full text-left px-4 py-2 text-white hover:bg-[#FFC107]/10 hover:text-[#FFC107] transition-colors duration-300"
                       >
                         {dropItem.title}
-                      </Link>
+                      </button>
                     ))}
                   </motion.div>
                 )}
@@ -168,14 +176,13 @@ export default function NavBar() {
                       {item.dropdown && (
                         <div className="ml-4 mt-2 space-y-2">
                           {item.dropdown.map((dropItem, dropIndex) => (
-                            <Link
+                            <button
                               key={dropIndex}
-                              href={dropItem.path}
+                              onClick={() => handleDropdownClick(dropItem.path)}
                               className="block text-white/80 hover:text-[#FFC107] transition-colors duration-300"
-                              onClick={() => setIsMenuOpen(false)}
                             >
                               {dropItem.title}
-                            </Link>
+                            </button>
                           ))}
                         </div>
                       )}
@@ -189,4 +196,4 @@ export default function NavBar() {
       </div>
     </header>
   );
-}
+} 

@@ -9,7 +9,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import NavBar from '../components/layout/NavBar';
 import HeroSection from '../components/home/HeroSection';
-import Footer from '@/components/layout/Footer';
+import Footer from '../components/layout/Footer';
 import ContactForm from '../components/contact/ContactForm';
 import MapComponent from '../components/shared/Map';
 
@@ -124,28 +124,12 @@ const ProgramCard = ({ program, index }) => {
   );
 };
 
-function Home() {
+export default function Home() {
   return (
     <main className="min-h-screen bg-[#034D27] text-white pt-16">
       <NavBar />
       <HeroSection />
-      <section id="contact" className="py-16">
-        <div className="container mx-auto px-4">
-          <h2 className="text-4xl md:text-5xl font-bold text-[#FFC107] mb-12 text-center leading-tight">
-            Contact Us
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="bg-white/10 p-8 rounded-xl">
-              <ContactForm />
-            </div>
-            <div className="h-[400px] rounded-xl overflow-hidden">
-              <MapComponent />
-            </div>
-          </div>
-        </div>
-      </section>
+      <Footer />
     </main>
   );
 }
-
-export default Home;
